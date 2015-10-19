@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+	<title>Learning Javascript</title>
+
+	<meta charset="utf-8" />
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	
+	<style>
+		body{
+			font-family: Verdana, Geneva, sans-serif;
+		}
+
+		#box{
+			height:100px;
+			width:100px;
+			background-color: red;
+			position: relative;
+		}
+	</style>
+</head>
+<body>
+	
+	<h1>Test your reactions!</h1>
+	<p>Click on the box and circle as quickly as you can!</p>
+	<p><strong>Your time : <span id="time">0</span>s</strong></p>
+
+	<div id="box"></div>
+
+	
+	<script type="text/javascript">
+
+		var clickedTime, createdTime, reactionTime;
+
+		function getRandomColor(){
+			var letters = '0123456789ABCDEF'.split('');
+			var color = '#';
+			for (var i = 0; i < 6; i++) {
+				color += letters[Math.round(Math.random() * 15)];
+			}
+			return color;
+		}	
+
+		function makeBox(){
+
+			//get a number between 0 and 1
+			var timer = Math.random();
+
+			//make it between 0 and 5000 for our purpose
+			timer = timer * 3000;
+			console.log(timer);
+			
+			//display box after random number of seconds
+			setTimeout(function(){
+
+				//make circle/square condition
+				if(Math.random() > 0.5){
+					document.getElementById('box').style.borderRadius="100px";	
+				}else{
+					document.getElementById('box').style.borderRadius="0";
+				}
+
+				//place the object at random position
+				var top = Math.random();
+				top = top * 500;
+
+				var left = Math.random();
+				left = left * 1024;
+
+				document.getElementById('box').style.top = top+"px";
+				document.getElementById('box').style.left = left+"px";
+
+				//get random color
+				document.getElementById('box').style.backgroundColor = getRandomColor();
+				//display the box
+				document.getElementById('box').style.display="block";
+				createdTime = Date.now();
+
+			}, timer);
+		}
+
+		document.getElementById('box').onclick = function(){
+			
+			clickedTime = Date.now();
+			reactionTime = (clickedTime - createdTime) / 1000;
+			document.getElementById('time').innerHTML = reactionTime;
+
+			this.style.display = "none";
+			makeBox();
+		}
+		
+	</script>
+</body>
+</html>
